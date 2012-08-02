@@ -198,7 +198,10 @@ $( '#homePage' ).live( 'pageshow', function () {
 
 $( '#AccountSummaryPage' ).live( 'pageshow', function () {
 	if ($.cookie("loggedin") === 'true') {
+			$('#AccountSummaryPage #uiSessionStatusAcctSum').text("Loading..");
+			$('#AccountSummaryPage #uiSessionStatusAcctSum').show();
 			GetAccountSummary();
+			//$('#AccountSummaryPage #uiSessionStatusAcctSum').hide();
 		}
 	else{
 		$.mobile.changePage("login.htm", { transition: "slide"});
