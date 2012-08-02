@@ -59,7 +59,7 @@
                     var data = JSON.stringify(jsonData);
                     ADLogin(data);
                     if ($.cookie("loggedin") === 'true') {
-                        $.mobile.changePage("AccountSummary.htm", { transition: "slide" });
+                        $.mobile.changePage("AccountSummary.htm", { transition: "slide", reloadPage:true });
                     }
                     else {
                         $("#uiLblError").show();
