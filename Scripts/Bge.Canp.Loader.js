@@ -14,6 +14,7 @@ function ADLogout() {
         dataType: "json",
         timeout: CanpAjaxTO,
 		crossDomain: true,
+		async:false,
         global: false
     });
 }
@@ -41,7 +42,6 @@ function LoginSuccess(msg) {
         return;
     } else if (msg.d.status) {
         $.cookie("loggedin", "true");
-		$.cookie("refresh", "true");
         return;
     }
 
@@ -55,6 +55,7 @@ function GetAccountSummary() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         timeout: CanpAjaxTO,
+		async:false,
         global: false,
 		crossDomain: true,
         success: AcctSumPopulate,
@@ -66,11 +67,13 @@ function AcctSumPopulate(msg) {
     if (jQuery.isEmptyObject(msg.d)) {
 		$("#AccountSummaryPage #uiSessionStatusAcctSum").text("Error");
         $("#AccountSummaryPage #uiSessionStatusAcctSum").show();
+		$.cookie("loggedin", null);
         return;
 
     } else if (!jQuery.isEmptyObject(msg.d.ErrorMessage)) {
         $("#AccountSummaryPage #uiSessionStatusAcctSum").show();
         $("#AccountSummaryPage #uiSessionStatusAcctSum").text(msg.d.ErrorMessage);
+		$.cookie("loggedin", null);
         return;
     }
     $('#AccountSummaryPage #uiAccountId').text("Acct# " + msg.d.AccountId);
@@ -183,6 +186,9 @@ $( '#AccountSummaryPage' ).live( 'pageshow', function () {
 			$('#AccountSummaryPage #uiSessionStatusAcctSum').text("Loading..");
 			$('#AccountSummaryPage #uiSessionStatusAcctSum').show();
 			GetAccountSummary();
+			if ($.cookie("loggedin") !== 'true') {
+				$.mobile.changePage("login.htm", { transition: "slide", reloadPage: true});
+			}
 			
 		}
 	else{
