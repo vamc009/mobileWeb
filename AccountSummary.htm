@@ -1,0 +1,124 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="jquery.mobile-1.1.0.min.css" />
+        <link rel="stylesheet" href="BGE_mobile.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="Scripts/jquery.min.js">
+        </script>
+        <script src="Scripts/jquery.mobile-1.1.0.min.js">
+        </script>
+         <script src="Scripts/Bge.Canp.Loader.js">
+        </script>
+        <script src="Scripts/jquery.cookie.js">
+        </script>
+        <script src="Scripts/Bge.Canp.Mobile.js">
+        </script>
+       
+    </head>
+    <body>
+        <!-- Home -->
+         <div data-role="page" id="AccountSummaryPage">
+            <div data-theme="b" data-role="header">
+            <a href="index.htm" data-transition="slide" data-icon="home" data-theme="b" data-mini="true" data-ajax="false">Home</a>
+			    <h3>
+                    BGE Mobile
+                </h3>
+                
+			    <a href="#" id="uiSignoutButton" data-role="button" data-theme="b" data-icon="arrow-r" data-mini="true" data-iconpos="right" class="ui-btn-right">LogOut</a>
+            </div>
+
+			<a  data-inline="true" style="display:none" data-role="button" id="uiAccountSelect" data-transition="fade" href="accountSelection.html" data-icon="arrow-d" data-iconpos="right">
+                    <span id="uiAccountNumber"></span>
+                </a>
+              
+				<span id="uiAccountId"></span>
+            <div data-role="content" style="padding: 15px">
+				
+                <span id="uiName">
+                    
+                </span>
+				<span >
+                    <ul id="uiAddress" style="list-style-type: none;">
+						
+					</ul>
+                </span>
+				 	
+                
+				<br/>
+                <ul data-role="listview" data-divider-theme="b" data-inset="false">
+                    <li data-role="list-divider" role="heading">
+                        Current Balance
+                    </li>
+                </ul>
+				
+				<ul data-role="listview" data-divider-theme="default" data-inset="false" style="margin-top:15px">
+                    <li data-role="list-divider" role="heading">
+                         <span>Amount Due</span>
+						 <span id="uiDue" style="float:right"></span>
+                        
+                    </li>
+                </ul>
+				
+				<ul data-role="listview" data-divider-theme="default" data-inset="false" style="margin-top:15px; margin-bottom:15px">
+                    <li data-role="list-divider" role="heading">
+                         <span>Due Date</span>
+						 <span id="uiDueDate" style="float:right"></span>
+                        
+                    </li>
+                </ul>
+                
+                <ul data-role="listview" data-divider-theme="b" data-inset="false">
+                    <li data-role="list-divider" role="heading">
+                        Last Payment
+                    </li>
+                </ul>
+				<ul data-role="listview" data-divider-theme="default" data-inset="false" style="margin-top:15px">
+                    <li data-role="list-divider" role="heading">
+                         <span>Last Payment</span>
+						 <span id="uiAmount" style="float:right"></span>
+                        
+                    </li>
+                </ul>
+				
+				<ul data-role="listview" data-divider-theme="default" data-inset="false" style="margin-top:15px; margin-bottom:15px">
+                    <li data-role="list-divider" role="heading">
+                         <span>Received Date</span>
+						 <span id="uiReceived" style="float:right"></span>
+                        
+                    </li>
+                </ul>
+                
+                        <a data-role="button" data-transition="fade" href="#page1" data-icon="arrow-r" data-iconpos="right">
+                            Pay Bill
+                        </a>
+						
+						<span id="uiSessionStatusAcctSum" style="display:none">Error</span>
+                
+            </div>
+            <script>
+                $(document).delegate("#AccountSummaryPage", "pageinit", function () {
+                    if ($.cookie("loggedin") === 'true') {
+                        $.mobile.showPageLoadingMsg();
+                        GetAccountSummary();
+                        $.mobile.hidePageLoadingMsg();
+                    }
+					$("#AccountSummaryPage #uiSignoutButton").click(function () {
+                         $.cookie("loggedin", null);
+                         $.mobile.changePage("index.htm", { transition: "slide", reloadPage:true });
+                         return false;
+                     });
+                });
+        </script>
+        </div>
+        
+    </body>
+</html>

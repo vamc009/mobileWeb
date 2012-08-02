@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        
+
+        
+        <link rel="stylesheet" href="jquery.mobile-1.1.0.min.css" />
+        <link rel="stylesheet" href="BGE_mobile.css" />
+        
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="Scripts/jquery.min.js">
+        </script>
+        <script src="Scripts/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script src="Scripts/Bge.Canp.Mobile.js">
+        </script>
+         <script src="Scripts/Bge.Canp.Loader.js">
+        </script>
+        <script src="Scripts/jquery.cookie.js">
+        </script>
+        
+    </head>
+    <body>
+
+        <div data-role="page" id="homePage">
+            <div data-theme="b" data-role="header">
+            
+			    <h3>
+                    BGE Mobile
+                </h3>
+                
+			        <a id="uiLoginButton" data-transition="pop" href="./login.htm"  data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">Sign In</a>
+
+			        <a id="uiLogoutButton" style="display:none" href="#" rel="external" data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">Sign Out</a>
+            </div>
+            
+            <div data-role="content">
+                 <div id="uiPnlWelcome" style="text-align:right"></div>
+                
+                <div id="uiMyAccountSection" data-role="collapsible-set" data-theme="b" data-content-theme="a">
+                    <div data-role="collapsible" data-collapsed="true">
+                        
+                        <h3>
+                            My Account
+                        </h3>
+                         <div id="uiAccountLoggedIn"  style="display:none">
+                            <ul data-role="listview" data-divider-theme="a" data-inset="true">
+                                <li data-role="list-divider" role="heading">
+                                </li>
+                                <li data-theme="c">
+                                    <a href="AccountSummary.htm"  data-transition="slide">
+                                        My Bill
+                                    </a>
+                                </li>
+                                <li data-theme="c">
+                                    <a href="/tbd.htm" data-transition="slide">
+                                        My Energy Use
+                                    </a>
+                                </li>
+                                <li data-theme="c">
+                                    <a href="/tbd.htm" data-transition="slide">
+                                        Savings Tips
+                                    </a>
+                                </li>
+                                <li data-theme="c">
+                                    <a href="/tbd.htm" data-transition="slide">
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li data-theme="c">
+                                    <a href="/tbd.htm" data-transition="slide">
+                                        Payments
+                                    </a>
+                                </li>
+                            </ul>
+                       </div>
+                        <div id="uiAccountLoggedOut">
+                         <ul data-role="listview" data-divider-theme="a" data-inset="true">
+                            <li data-role="list-divider" role="heading">
+                            </li>
+                            <li data-theme="c">
+								
+                               <div data-role="fieldcontain">
+									<fieldset data-role="controlgroup">
+										<label for="textinput1">
+											User ID&nbsp;&nbsp;&nbsp;&nbsp;
+										</label>
+										<input id="uiTxtUserId" name="userId" placeholder="" value="" type="text" />
+									</fieldset>
+								</div>
+								<div data-role="fieldcontain">
+									<fieldset data-role="controlgroup">
+										<label for="textinput2">
+											Password
+										</label>
+										<input id="uiTxtPassword" name="password" placeholder="" value="" type="password" />
+									</fieldset>
+									<a id="uiSignButton" href="#" data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right">Sign In</a>
+								</div>
+								
+								<span id="uiLblError" style="display:none"></span>
+								
+                            </li>
+                          </ul>
+                          
+                       </div>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            Customer Service
+                        </h3>
+                        <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                            <li data-theme="c">
+                                <a href="/tbd.htm" data-transition="slide">
+                                    Service Requests
+                                </a>
+                            </li>
+                            <li data-theme="c">
+                                <a href="/tbd.htm" data-transition="slide">
+                                    Stroms &amp; Outages
+                                </a>
+                            </li>
+                            <li data-theme="c">
+                                <a href="/tbd.htm" data-transition="slide">
+                                    Common Questions
+                                </a>
+                            </li>
+                            <li data-theme="c">
+                                <a href="/tbd.htm" data-transition="slide">
+                                    Contact Us
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            Ways to Save
+                        </h3>
+                        <ul data-role="listview" data-divider-theme="a" data-inset="true">
+                            <li data-role="list-divider" role="heading">
+                                Divider
+                            </li>
+                            <li data-theme="c">
+                                <a href="/tbd.htm" data-transition="slide">
+                                    TBD
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            Learn &amp; Share
+                        </h3>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            Our Commitments
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div data-theme="b" data-role="footer">
+            </div>
+             <script type="text/javascript">
+                 $(document).one("pageinit", function (e) {
+
+                     $("#homePage #uiSignButton").click(function () {
+                         var userId = $('#homePage input[name=userId]');
+                         var password = $('#homePage input[name=password]');
+                         //var data = 'userId=' + userId.val() + '&password=' + password.val();
+                         var jsonData = { "userId": userId.val(), "password": password.val() };
+                         var data = JSON.stringify(jsonData)
+                         ADLogin(data);
+                         if ($.cookie("loggedin") === 'true') {
+                             $("#uiAccountLoggedOut").hide();
+                             $("#uiAccountLoggedIn").show();
+                             $("#uiLogoutButton").show();
+                             $("#uiLoginButton").hide();
+							 $.mobile.changePage("AccountSummary.htm", { transition: "slide" });
+                         }
+                         else {
+                             $("#homePage #uiLblError").show();
+                             $("#homePage #uiLblError").text("Invalid UserId/Password");
+                         }
+                         return false;
+                     });
+
+                     if ($.cookie("loggedin") === 'true') {
+                         $("#uiAccountLoggedOut").hide();
+                         $("#uiAccountLoggedIn").show();
+                         $("#uiLogoutButton").show();
+                         $("#uiLoginButton").hide();
+                     }
+
+                     $("#homePage #uiLogoutButton").click(function () {
+                         $("#uiLoginButton").show();
+                         $("#uiLogoutButton").hide();
+                         $.cookie("loggedin", null);
+                         $("#uiAccountLoggedOut").show();
+                         $("#uiAccountLoggedIn").hide();
+                         return false;
+                     });
+                 });
+        </script>
+        </div>
+       
+    </body>
+
+</html>

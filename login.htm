@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" href="jquery.mobile-1.1.0.min.css" />
+    <link rel="stylesheet" href="BGE_mobile.css" />
+    <style>
+        /* App custom styles */
+    </style>
+    <script src="Scripts/jquery.min.js">
+        </script>
+    <script src="Scripts/jquery.mobile-1.1.0.min.js">
+        </script>
+    <script src="Scripts/Bge.Canp.Loader.js">
+        </script>
+    <script src="Scripts/jquery.cookie.js">
+    </script>
+    <script src="Scripts/Bge.Canp.Mobile.js">
+        </script>
+</head>
+<body>
+    <div data-role="page" id="loginPage">
+        <div data-role="content" style="padding: 15px">
+            <ul data-role="listview" data-divider-theme="a" data-inset="true">
+                <li data-role="list-divider" role="heading"></li>
+                <li data-theme="c">
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup">
+                            <label for="textinput1">
+                                User ID&nbsp;&nbsp;&nbsp;&nbsp;
+                            </label>
+                            <input id="uiTxtUserId" name="userId" placeholder="" value="" type="text" />
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup">
+                            <label for="textinput2">
+                                Password
+                            </label>
+                            <input id="uiTxtPassword" name="password" placeholder="" value="" type="password" />
+                        </fieldset>
+                        <a id="uiSignButtonD" href="#" data-mini="true" data-role="button" data-theme="b"
+                            data-icon="arrow-r" data-iconpos="right">Sign In</a>
+                    </div>
+                </li>
+            </ul>
+            <span id="uiLblError"></span>
+        </div>
+        <script type="text/javascript">
+            $(document).one("pageinit", function (e) {
+
+                $("#loginPage #uiSignButtonD").click(function () {
+                    var userId = $('#loginPage input[name=userId]');
+                    var password = $('#loginPage input[name=password]');
+                    //var data = 'userId=' + userId.val() + '&password=' + password.val();
+                    var jsonData = { "userId": userId.val(), "password": password.val() };
+                    var data = JSON.stringify(jsonData);
+                    ADLogin(data);
+                    if ($.cookie("loggedin") === 'true') {
+                        $.mobile.changePage("AccountSummary.htm", { transition: "slide" });
+                    }
+                    else {
+                        $("#uiLblError").show();
+                        $("#uiLblError").text("Invalid UserId/Password");
+                    }
+                    return false;
+                });
+            });
+        </script>
+    </div>
+   
+</body>
+</html>
