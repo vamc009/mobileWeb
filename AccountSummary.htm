@@ -105,24 +105,8 @@
                 
             </div>
             <script>
-                $(document).delegate("#AccountSummaryPage", "pageshow", function () {
-                    if ($.cookie("loggedin") === 'true') {
-						if ($.cookie("refresh") === 'true'){
-							$.mobile.showPageLoadingMsg();
-							GetAccountSummary();
-							$.cookie("refresh", null);
-							$.mobile.hidePageLoadingMsg();
-						}
-                    }
-					else{
-						$.mobile.changePage("login.htm", { transition: "slide", reloadPage:true });
-					}
-					$("#AccountSummaryPage #uiSignoutButton").click(function () {
-                         $.cookie("loggedin", null);
-                         $.mobile.changePage("index.html", { transition: "slide", reloadPage:true });
-                         return false;
-                     });
-                });
+			
+                
         </script>
         </div>
         

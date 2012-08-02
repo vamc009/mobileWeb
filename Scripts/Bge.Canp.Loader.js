@@ -6,7 +6,21 @@ var globalEMsg = ''; //to store the global error message
 
 jQuery.support.cors = true;
 
+function ADLogout() {
+    $.ajax({
+        type: "POST",
+        url: "http://stage-newsletter.bge.com/RenderService.asmx/ADLogout",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: CanpAjaxTO,
+		crossDomain: true,
+        global: false,
+        async:false,
+    });
+}
+
 function ADLogin(data) {
+	$.cookie("ASP.NET_SessionId", null);
     $.ajax({
         type: "POST",
         url: "http://stage-newsletter.bge.com/RenderService.asmx/ADLogin",
@@ -140,4 +154,81 @@ function AcctSumComplete(xhr, status) {
         $("#uiSessionStatusAcctSum").text("Error");
     }
 }
+
+$( '#homePage' ).live( 'pageshow', function () {
+
+ $("#homePage #uiSignButton").click(function () {
+	 var userId = $('#homePage input[name=userId]');
+	 var password = $('#homePage input[name=password]');
+	 //var data = 'userId=' + userId.val() + '&password=' + password.val();
+	 var jsonData = { "userId": userId.val(), "password": password.val() };
+	 var data = JSON.stringify(jsonData)
+	 ADLogin(data);
+	 if ($.cookie("loggedin") === 'true') {
+		 $("#uiAccountLoggedOut").hide();
+		 $("#uiAccountLoggedIn").show();
+		 $("#uiLogoutButton").show();
+		 $("#uiLoginButton").hide();
+		 $.mobile.changePage("AccountSummary.htm", { transition: "slide"});
+	 }
+	 else {
+		 $("#homePage #uiLblError").show();
+		 $("#homePage #uiLblError").text("Invalid UserId/Password");
+	 }
+	 return false;
+ });
+
+ if ($.cookie("loggedin") === 'true') {
+	 $("#uiAccountLoggedOut").hide();
+	 $("#uiAccountLoggedIn").show();
+	 $("#uiLogoutButton").show();
+	 $("#uiLoginButton").hide();
+ }
+
+ $("#homePage #uiLogoutButton").click(function () {
+	 ADLogout();
+	 $("#uiLoginButton").show();
+	 $("#uiLogoutButton").hide();
+	 $.cookie("loggedin", null);
+	 $("#uiAccountLoggedOut").show();
+	 $("#uiAccountLoggedIn").hide();
+	 return false;
+ });
+});
+
+$( '#AccountSummaryPage' ).live( 'pageshow', function () {
+	if ($.cookie("loggedin") === 'true') {
+			GetAccountSummary();
+		}
+	else{
+		$.mobile.changePage("login.htm", { transition: "slide"});
+	}
+	$("#AccountSummaryPage #uiSignoutButton").click(function () {
+		 ADLogout();
+		 $.cookie("loggedin", null);
+		 $.mobile.changePage("index.html", { transition: "slide"});
+		 return false;
+	 });
+});
+
+
+$( '#loginPage' ).live( 'pageshow', function () {
+	$("#loginPage #uiSignButtonD").click(function () {
+		var userId = $('#loginPage input[name=userId]');
+		var password = $('#loginPage input[name=password]');
+		//var data = 'userId=' + userId.val() + '&password=' + password.val();
+		var jsonData = { "userId": userId.val(), "password": password.val() };
+		var data = JSON.stringify(jsonData);
+		ADLogin(data);
+		if ($.cookie("loggedin") === 'true') {
+			$.mobile.changePage("AccountSummary.htm", { transition: "slide"});
+		}
+		else {
+			$("#loginPage #uiLblError").show();
+			$("#loginPage #uiLblError").text("Invalid UserId/Password");
+		}
+		return false;
+	});
+});
+
 

@@ -44,30 +44,13 @@
                         <a id="uiSignButtonD" href="#" data-mini="true" data-role="button" data-theme="b"
                             data-icon="arrow-r" data-iconpos="right">Sign In</a>
                     </div>
+					<span id="uiLblError"></span>
                 </li>
             </ul>
-            <span id="uiLblError"></span>
+            
         </div>
         <script type="text/javascript">
-            $(document).one("pageinit", function (e) {
-
-                $("#loginPage #uiSignButtonD").click(function () {
-                    var userId = $('#loginPage input[name=userId]');
-                    var password = $('#loginPage input[name=password]');
-                    //var data = 'userId=' + userId.val() + '&password=' + password.val();
-                    var jsonData = { "userId": userId.val(), "password": password.val() };
-                    var data = JSON.stringify(jsonData);
-                    ADLogin(data);
-                    if ($.cookie("loggedin") === 'true') {
-                        $.mobile.changePage("AccountSummary.htm", { transition: "slide", reloadPage:true });
-                    }
-                    else {
-                        $("#uiLblError").show();
-                        $("#uiLblError").text("Invalid UserId/Password");
-                    }
-                    return false;
-                });
-            });
+          
         </script>
     </div>
    

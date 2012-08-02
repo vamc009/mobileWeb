@@ -169,45 +169,7 @@
             <div data-theme="b" data-role="footer">
             </div>
              <script type="text/javascript">
-                 $(document).one("pageinit", function (e) {
-
-                     $("#homePage #uiSignButton").click(function () {
-                         var userId = $('#homePage input[name=userId]');
-                         var password = $('#homePage input[name=password]');
-                         //var data = 'userId=' + userId.val() + '&password=' + password.val();
-                         var jsonData = { "userId": userId.val(), "password": password.val() };
-                         var data = JSON.stringify(jsonData)
-                         ADLogin(data);
-                         if ($.cookie("loggedin") === 'true') {
-                             $("#uiAccountLoggedOut").hide();
-                             $("#uiAccountLoggedIn").show();
-                             $("#uiLogoutButton").show();
-                             $("#uiLoginButton").hide();
-							 $.mobile.changePage("AccountSummary.htm", { transition: "slide", reloadPage:true });
-                         }
-                         else {
-                             $("#homePage #uiLblError").show();
-                             $("#homePage #uiLblError").text("Invalid UserId/Password");
-                         }
-                         return false;
-                     });
-
-                     if ($.cookie("loggedin") === 'true') {
-                         $("#uiAccountLoggedOut").hide();
-                         $("#uiAccountLoggedIn").show();
-                         $("#uiLogoutButton").show();
-                         $("#uiLoginButton").hide();
-                     }
-
-                     $("#homePage #uiLogoutButton").click(function () {
-                         $("#uiLoginButton").show();
-                         $("#uiLogoutButton").hide();
-                         $.cookie("loggedin", null);
-                         $("#uiAccountLoggedOut").show();
-                         $("#uiAccountLoggedIn").hide();
-                         return false;
-                     });
-                 });
+                 
         </script>
         </div>
        
