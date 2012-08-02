@@ -28,7 +28,7 @@
         <!-- Home -->
          <div data-role="page" id="AccountSummaryPage">
             <div data-theme="b" data-role="header">
-            <a href="index.htm" data-transition="slide" data-icon="home" data-theme="b" data-mini="true" data-ajax="false">Home</a>
+            <a href="index.html" data-transition="slide" data-icon="home" data-theme="b" data-mini="true" data-ajax="false">Home</a>
 			    <h3>
                     BGE Mobile
                 </h3>
@@ -113,7 +113,7 @@
                     }
 					$("#AccountSummaryPage #uiSignoutButton").click(function () {
                          $.cookie("loggedin", null);
-                         $.mobile.changePage("index.htm", { transition: "slide", reloadPage:true });
+                         $.mobile.changePage("index.html", { transition: "slide", reloadPage:true });
                          return false;
                      });
                 });
