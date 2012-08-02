@@ -183,7 +183,7 @@
                              $("#uiAccountLoggedIn").show();
                              $("#uiLogoutButton").show();
                              $("#uiLoginButton").hide();
-							 $.mobile.changePage("AccountSummary.htm", { transition: "slide" });
+							 $.mobile.changePage("AccountSummary.htm", { transition: "slide", reloadPage:true });
                          }
                          else {
                              $("#homePage #uiLblError").show();

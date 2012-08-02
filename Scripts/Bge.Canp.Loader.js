@@ -29,12 +29,8 @@ function LoginSuccess(msg) {
 
         return;
     } else if (msg.d.status) {
-        $("#uiLogoutButton").show();
-        $("#uiLoginButton").hide();
-
-        $("#uiAccountLoggedOut").hide();
-        $("#uiAccountLoggedIn").show();
         $.cookie("loggedin", "true");
+		$.cookie("refresh", "true");
         return;
     }
 
