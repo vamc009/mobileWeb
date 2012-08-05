@@ -4,7 +4,7 @@ var CanpCommEMsg = 'Data not available at this time. Please try again later';   
 var CanpGenEMsg = 'Error detected. Please contact your BGE service representative.'; // generic server error
 var globalEMsg = ''; //to store the global error message
 
-var BGELoggedIn = false;
+
 
 jQuery.support.cors = true;
 
@@ -40,11 +40,10 @@ function LoginSuccess(msg) {
     if (jQuery.isEmptyObject(msg.d)) {
         return;
     } else if (!jQuery.isEmptyObject(msg.d.ErrorMessage)) {
-
         return;
     } else if (msg.d.status) {
         $.cookie("loggedin", "true");
-        BGELoggedIn = true;
+        
         return;
     }
 
@@ -58,7 +57,6 @@ function GetAccountSummary() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         timeout: CanpAjaxTO,
-        async: false,
         global: false,
         crossDomain: true,
         success: AcctSumPopulate,
@@ -66,64 +64,44 @@ function GetAccountSummary() {
         complete: AcctSumComplete
     });
 }
+
+function GetAccountSummarySync() {
+    var data;
+    $.ajax({
+		type: "POST",
+        url: "http://stage-newsletter.bge.com/RenderService.asmx/GetAccountSummary",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: CanpAjaxTO,
+        global: false,
+        crossDomain: true,
+        async: false,
+        success: function(msg) {
+            data = msg.d
+        }
+    });
+    return data 
+}
+
 function AcctSumPopulate(msg) {
     if (jQuery.isEmptyObject(msg.d)) {
         $("#AccountSummaryPage #uiSessionStatusAcctSum").text("Error");
         $("#AccountSummaryPage #uiSessionStatusAcctSum").show();
         $.cookie("loggedin", null);
-        BGELoggedIn = false;
+        
         return;
 
     } else if (!jQuery.isEmptyObject(msg.d.ErrorMessage)) {
         $("#AccountSummaryPage #uiSessionStatusAcctSum").show();
         $("#AccountSummaryPage #uiSessionStatusAcctSum").text(msg.d.ErrorMessage);
         $.cookie("loggedin", null);
-        BGELoggedIn = false;
+        
         return;
     }
-    $('#AccountSummaryPage #uiAccountId').text("Acct# " + msg.d.AccountId);
-    $('#AccountSummaryPage #uiAccountNumber').text("Acct# " + msg.d.AccountId);
-    $('#AccountSummaryPage #uiName').text(msg.d.PrimaryAccountHoldersName);
-    $('#AccountSummaryPage #uiAddress').text(msg.d.MailAddress);
-    //Bill Data
-    $('#AccountSummaryPage #uiAmount').text(msg.d.LastPayment);
-    $('#AccountSummaryPage #uiReceived').text(msg.d.Received);
-    $('#AccountSummaryPage #uiDue').text(msg.d.NetAmountDue);
-    $('#AccountSummaryPage #uiDueDate').text(msg.d.DueDate);
-
-    if (msg.d.MailAddress != null && msg.d.MailAddress.length > 0) {
-        $('#AccountSummaryPage #uiAddress').empty();
-        $.each(msg.d.MailAddress, function (idx) {
-            $('#AccountSummaryPage #uiAddress').append('<li>' + this + '</li>');
-        });
-    }
-    if (msg.d.NumberAccounts > 1) {
-        $('#AccountSummaryPage #uiAccountSelect').show();
-        $('#AccountSummaryPage #uiAccountId').hide();
-    }
-    if (msg.d.ServiceList != null && msg.d.ServiceList.length == 1 && msg.d.ServiceList[0].Address != "No Data") {
-        $('#AccountSummaryPage #uiPremiseSingle').show();
-        $('#AccountSummaryPage #uiPremise').hide();
-        $('#AccountSummaryPage #uiNoPremise').hide();
-        $('#AccountSummaryPage #uiPremiseSingle').text(msg.d.ServiceList[0].Address);
-    }
-    else if (msg.d.ServiceList != null && msg.d.ServiceList.length > 1) {
-        $('#AccountSummaryPage #uiPremiseSingle').hide();
-        $('#AccountSummaryPage #uiPremise').show();
-        $('#AccountSummaryPage #uiNoPremise').hide();
-        var pselect = $('#AccountSummaryPage #uiPremiseSelect');
-        $.each(msg.d.ServiceList, function (idx) {
-            pselect.append('<option value=' + this.Id + '>' + this.Address + '</option>');
-        });
-        pselect.change(OnChangePremise);
-    }
-    else if (msg.d.ServiceList[0].Address == "No Data") {
-        $('#AccountSummaryPage #uiPremiseSingle').show();
-        $('#AccountSummaryPage #uiPremise').hide();
-        $('#AccountSummaryPage #uiPremiseSingle').text('no premise');
-        $('#AccountSummaryPage #uiNoPremise').show();
-    }
-    $("#AccountSummaryPage #uiSessionStatusAcctSum").hide();
+	//AccountSummaryData =  msg.d;
+	$.jStorage.set("AccountSummaryData",msg.d);
+	renderAccuontSummary();
+	$.mobile.changePage("AccountSummary.htm", { transition: "slide" });
 }
 function AcctSumError(xhr, ajaxOptions, thrownError) {
 
@@ -137,6 +115,70 @@ function AcctSumComplete(xhr, status) {
         $("#AccountSummaryPage #uiSessionStatusAcctSum").show();
         $("#AccountSummaryPage #uiSessionStatusAcctSum").text("Error");
     }
+	
+}
+function IsLoggedIn(){
+	if( $.cookie( "loggedin" ) === "true"){
+		return true;
+	}
+	else
+		return false;
+}
+
+function renderAccuontSummary(){
+	var ASumdata = $.jStorage.get("AccountSummaryData");
+	if(!ASumdata){
+		// if not - load the data from the server
+		ASumdata = GetAccountSummarySync();
+		// and save it
+		$.jStorage.set("AccountSummaryData",ASumdata);
+	} 
+	var AccountSummaryData = ASumdata;
+	if(!jQuery.isEmptyObject(AccountSummaryData)){
+		$('#AccountSummaryPage #uiAccountId').text("Acct# " + AccountSummaryData.AccountId);
+		$('#AccountSummaryPage #uiAccountNumber').text("Acct# " + AccountSummaryData.AccountId);
+		$('#AccountSummaryPage #uiName').text(AccountSummaryData.PrimaryAccountHoldersName);
+		$('#AccountSummaryPage #uiAddress').text(AccountSummaryData.MailAddress);
+		//Bill Data
+		$('#AccountSummaryPage #uiAmount').text(AccountSummaryData.LastPayment);
+		$('#AccountSummaryPage #uiReceived').text(AccountSummaryData.Received);
+		$('#AccountSummaryPage #uiDue').text(AccountSummaryData.NetAmountDue);
+		$('#AccountSummaryPage #uiDueDate').text(AccountSummaryData.DueDate);
+
+		if (AccountSummaryData.MailAddress != null && AccountSummaryData.MailAddress.length > 0) {
+			$('#AccountSummaryPage #uiAddress').empty();
+			$.each(AccountSummaryData.MailAddress, function (idx) {
+				$('#AccountSummaryPage #uiAddress').append('<li>' + this + '</li>');
+			});
+		}
+		if (AccountSummaryData.NumberAccounts > 1) {
+			$('#AccountSummaryPage #uiAccountSelect').show();
+			$('#AccountSummaryPage #uiAccountId').hide();
+		}
+		if (AccountSummaryData.ServiceList != null && AccountSummaryData.ServiceList.length == 1 && AccountSummaryData.ServiceList[0].Address != "No Data") {
+			$('#AccountSummaryPage #uiPremiseSingle').show();
+			$('#AccountSummaryPage #uiPremise').hide();
+			$('#AccountSummaryPage #uiNoPremise').hide();
+			$('#AccountSummaryPage #uiPremiseSingle').text(AccountSummaryData.ServiceList[0].Address);
+		}
+		else if (AccountSummaryData.ServiceList != null && AccountSummaryData.ServiceList.length > 1) {
+			$('#AccountSummaryPage #uiPremiseSingle').hide();
+			$('#AccountSummaryPage #uiPremise').show();
+			$('#AccountSummaryPage #uiNoPremise').hide();
+			var pselect = $('#AccountSummaryPage #uiPremiseSelect');
+			$.each(AccountSummaryData.ServiceList, function (idx) {
+				pselect.append('<option value=' + this.Id + '>' + this.Address + '</option>');
+			});
+			pselect.change(OnChangePremise);
+		}
+		else if (AccountSummaryData.ServiceList[0].Address == "No Data") {
+			$('#AccountSummaryPage #uiPremiseSingle').show();
+			$('#AccountSummaryPage #uiPremise').hide();
+			$('#AccountSummaryPage #uiPremiseSingle').text('no premise');
+			$('#AccountSummaryPage #uiNoPremise').show();
+		}
+		$("#AccountSummaryPage #uiSessionStatusAcctSum").hide();
+	}
 }
 
 $('#homePage').live('pageshow', function () {
@@ -148,7 +190,7 @@ $('#homePage').live('pageshow', function () {
         var jsonData = { "userId": userId.val(), "password": password.val() };
         var data = JSON.stringify(jsonData)
         ADLogin(data);
-        if (BGELoggedIn) {
+        if (IsLoggedIn()) {
             $("#uiAccountLoggedOut").hide();
             $("#uiAccountLoggedIn").show();
             $("#uiLogoutButton").show();
@@ -160,16 +202,31 @@ $('#homePage').live('pageshow', function () {
             $("#homePage #uiLblError").text("Invalid UserId/Password");
         }
         return false;
+		
     });
-
-    if (BGELoggedIn) {
-        $("#homePage #uiAccountLoggedOut").hide();
-        $("#homePage #uiAccountLoggedIn").show();
+	
+	$('#homePage #uiMyaccountBtn').click(function () {
+			if (IsLoggedIn()) {
+				$.mobile.loadPage("AccountSummary.htm");
+				renderAccuontSummary();
+				$.mobile.changePage("#AccountSummaryPage");
+			}
+			else{
+				
+				$.mobile.changePage("login.htm");
+				
+			}
+			
+		});
+		
+    if (IsLoggedIn()) {
+     //   $("#homePage #uiAccountLoggedOut").hide();
+     //   $("#homePage #uiAccountLoggedIn").show();
         $("#homePage #uiLogoutButton").show();
         $("#homePage #uiLoginButton").hide();
     } else {
-        $("#homePage #uiAccountLoggedOut").show();
-        $("#homePage #uiAccountLoggedIn").hide();
+     //   $("#homePage #uiAccountLoggedOut").show();
+     //   $("#homePage #uiAccountLoggedIn").hide();
         $("#homePage #uiLogoutButton").hide();
         $("#homePage #uiLoginButton").show();
     }
@@ -180,22 +237,21 @@ $('#homePage').live('pageshow', function () {
         $("#uiLoginButton").show();
         $("#uiLogoutButton").hide();
         $.cookie("loggedin", null);
-        BGELoggedIn = false;
-        $("#uiAccountLoggedOut").show();
-        $("#uiAccountLoggedIn").hide();
+        
+        //$("#uiAccountLoggedOut").show();
+        //$("#uiAccountLoggedIn").hide();
         return false;
     });
 });
 
 $('#AccountSummaryPage').live('pageshow', function () {
-    if (BGELoggedIn) {
+    if (IsLoggedIn()) {
         $('#AccountSummaryPage #uiSessionStatusAcctSum').text("Loading..");
         $('#AccountSummaryPage #uiSessionStatusAcctSum').show();
-        GetAccountSummary();
-        if (!BGELoggedIn) {
-            $.mobile.changePage("login.htm", { transition: "slide", reloadPage: true });
+        renderAccuontSummary();
+        if (!IsLoggedIn()) {
+            $.mobile.changePage("login.htm", { transition: "slide"});
         }
-
     }
     else {
         $.mobile.changePage("login.htm", { transition: "slide" });
@@ -203,7 +259,6 @@ $('#AccountSummaryPage').live('pageshow', function () {
     $("#AccountSummaryPage #uiSignoutButton").click(function () {
         ADLogout();
         $.cookie("loggedin", null);
-        BGELoggedIn = false;
         $.mobile.changePage("index.html", { transition: "slide", reloadPage: true });
         return false;
     });
@@ -217,9 +272,11 @@ $('#loginPage').live('pageshow', function () {
         //var data = 'userId=' + userId.val() + '&password=' + password.val();
         var jsonData = { "userId": userId.val(), "password": password.val() };
         var data = JSON.stringify(jsonData);
-        ADLogin(data);
-        if (BGELoggedIn) {
-            $.mobile.changePage("AccountSummary.htm", { transition: "slide" });
+        
+		ADLogin(data);
+        if (IsLoggedIn()) {
+			$.mobile.loadPage("AccountSummary.htm");
+			 GetAccountSummary();
         }
         else {
             $("#loginPage #uiLblError").show();

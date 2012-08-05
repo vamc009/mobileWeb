@@ -12,28 +12,30 @@
         <style>
             /* App custom styles */
         </style>
-        <script src="Scripts/jquery.min.js">
+       <script src="Scripts/jquery.min.js">
         </script>
         <script src="Scripts/jquery.mobile-1.1.0.min.js">
         </script>
-         <script src="Scripts/Bge.Canp.Loader.js">
-        </script>
-        <script src="Scripts/jquery.cookie.js">
-        </script>
         <script src="Scripts/Bge.Canp.Mobile.js">
+        </script>
+		<script src="Scripts/jquery.cookie.js">
+        </script>
+		<script src="Scripts/jstorage.js">
+        </script>
+         <script src="Scripts/Bge.Canp.Loader.js">
         </script>
        
     </head>
     <body>
-        <!-- Home -->
+        <!-- AccountSummaryPage -->
          <div data-role="page" id="AccountSummaryPage">
             <div data-theme="b" data-role="header">
-            <a href="index.html" data-transition="slide" data-icon="home" data-theme="b" data-mini="true" data-ajax="false">Home</a>
+            <a href="index.html" data-transition="slide" data-icon="home" data-theme="b" data-mini="true">Home</a>
 			    <h3>
                     BGE Mobile
                 </h3>
                 
-			    <a href="#" id="uiSignoutButton" data-role="button" data-theme="b" data-icon="arrow-r" data-mini="true" data-iconpos="right" class="ui-btn-right">LogOut</a>
+			    <a href="#" id="uiSignoutButton" data-role="button" data-theme="b" data-icon="arrow-r" data-mini="true" data-iconpos="right" class="ui-btn-right">SIGN OUT</a>
             </div>
 
 			<a  data-inline="true" style="display:none" data-role="button" id="uiAccountSelect" data-transition="fade" href="accountSelection.html" data-icon="arrow-d" data-iconpos="right">
@@ -102,7 +104,7 @@
                         </a>
 						
 						<span id="uiSessionStatusAcctSum" style="display:none">Error</span>
-                
+				
             </div>
             <script>
 			

@@ -21,10 +21,13 @@
         </script>
         <script src="Scripts/Bge.Canp.Mobile.js">
         </script>
+		<script src="Scripts/jquery.cookie.js">
+        </script>
+		<script src="Scripts/jstorage.js">
+        </script>
          <script src="Scripts/Bge.Canp.Loader.js">
         </script>
-        <script src="Scripts/jquery.cookie.js">
-        </script>
+        
         
     </head>
     <body>
@@ -36,9 +39,9 @@
                     BGE Mobile
                 </h3>
                 
-			        <a id="uiLoginButton" data-transition="pop" href="./login.htm"  data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">Sign In</a>
+			        <a id="uiLoginButton" data-transition="pop" href="./login.htm"  data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">SIGN IN</a>
 
-			        <a id="uiLogoutButton" style="display:none" href="#" rel="external" data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">Sign Out</a>
+			        <a id="uiLogoutButton" style="display:none" href="#" rel="external" data-mini="true" data-role="button" data-theme="b" data-icon="arrow-r" data-iconpos="right" class="ui-btn-right">SIGN OUT</a>
             </div>
             
             <div data-role="content">
@@ -50,12 +53,12 @@
                         <h3>
                             My Account
                         </h3>
-                         <div id="uiAccountLoggedIn"  style="display:none">
+                         <div id="uiAccountLoggedIn" >
                             <ul data-role="listview" data-divider-theme="a" data-inset="true">
                                 <li data-role="list-divider" role="heading">
                                 </li>
                                 <li data-theme="c">
-                                    <a href="AccountSummary.htm"  data-transition="slide">
+                                    <a id="uiMyaccountBtn" data-transition="slide">
                                         My Bill
                                     </a>
                                 </li>
@@ -81,7 +84,7 @@
                                 </li>
                             </ul>
                        </div>
-                        <div id="uiAccountLoggedOut">
+                        <div id="uiAccountLoggedOut" style="display:none">
                          <ul data-role="listview" data-divider-theme="a" data-inset="true">
                             <li data-role="list-divider" role="heading">
                             </li>
